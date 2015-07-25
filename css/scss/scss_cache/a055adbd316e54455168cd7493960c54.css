@@ -1,4 +1,4 @@
-/* compiled by scssphp v0.0.9 on Sat, 25 Jul 2015 07:42:56 +0200 (0.0567s) */
+/* compiled by scssphp v0.0.9 on Sat, 25 Jul 2015 08:21:24 +0200 (0.0351s) */
 
 @font-face {
   font-family: 'Material Icons';
@@ -31,6 +31,9 @@
   display: table;
   margin: 20px auto; }
 
+.page {
+  padding: 10px; }
+
 .mdl-layout .mdl-tabs .tab-icon-text {
   font-size: xx-small;
   display: block;
@@ -41,3 +44,10 @@
     font-size: 10px; }
     .mdl-layout .mdl-checkbox__label {
       font-size: small; }
+  .mdl-layout .mdl-card {
+    width: 100%; }
+    .mdl-layout .mdl-card__title {
+      color: #fff;
+      min-height: 176px; }
+    .mdl-layout .mdl-card__menu {
+      color: #fff; }

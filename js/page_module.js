@@ -42,11 +42,14 @@ pageModule.run(['$rootScope', '$location', function($root, $location){
 }]);
 
 pageModule.controller('LoginController', ['$scope', '$rootScope', function($scope, $root){
+
 	$scope.l_username = "";
 	$scope.l_password = "";
 	$scope.loginSubmit = function() {
 		lgi("Login", $scope.l_username, $scope.l_password);
+		$root.changePath("");
 	}
+
 }]);
 pageModule.controller('IndexController', ['$scope', '$rootScope', function($scope, $root){
 	
