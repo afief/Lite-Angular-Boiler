@@ -1,0 +1,13 @@
+.layout-transparent {
+	.mdl-layout__drawer-button {
+		color: $color_grey;
+	}
+	.mdl-layout__header {
+		color: $color_grey;
+		.mdl-navigation {
+			&__link {
+				color: $color_grey;	
+			}
+		}
+	}
+}

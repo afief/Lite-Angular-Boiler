@@ -1,0 +1,28 @@
+@import "configure";
+@import "elements";
+@import "header";
+
+
+.form-login {
+	max-width: 300px;
+	display: table;
+	margin: 20px auto;
+}
+
+.mdl-layout {
+	.mdl-tabs {
+		.tab-icon-text {
+			font-size: xx-small;
+			display: block;
+			margin-top: -35px;
+		}
+	}
+	.mdl-checkbox {
+		height: initial;
+		margin-bottom: 10px;
+		font-size: 10px;
+		&__label {
+			font-size: small;
+		}
+	}
+}

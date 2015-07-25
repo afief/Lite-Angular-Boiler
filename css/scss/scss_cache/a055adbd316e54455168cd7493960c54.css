@@ -1,0 +1,43 @@
+/* compiled by scssphp v0.0.9 on Sat, 25 Jul 2015 07:42:56 +0200 (0.0567s) */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url("../../fonts/material_font.woff2") format('woff2'); }
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased; }
+
+.layout-transparent .mdl-layout__drawer-button {
+  color: #333; }
+  .layout-transparent .mdl-layout__header {
+    color: #333; }
+    .layout-transparent .mdl-layout__header .mdl-navigation__link {
+      color: #333; }
+
+.form-login {
+  max-width: 300px;
+  display: table;
+  margin: 20px auto; }
+
+.mdl-layout .mdl-tabs .tab-icon-text {
+  font-size: xx-small;
+  display: block;
+  margin-top: -35px; }
+  .mdl-layout .mdl-checkbox {
+    height: initial;
+    margin-bottom: 10px;
+    font-size: 10px; }
+    .mdl-layout .mdl-checkbox__label {
+      font-size: small; }
