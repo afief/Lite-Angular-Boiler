@@ -1,7 +1,9 @@
 var lg = console.log.bind(console);
-var lgi = console.info.bind(console);;
-var lge = console.error.bind(console);;
-var lgw = console.warn.bind(console);;
+var lgi = console.info.bind(console);
+var lge = console.error.bind(console);
+var lgw = console.warn.bind(console);
+var lgblue = function(arg) { console.log( "%c" + arg, "background-color: blue; color: white" )}
+var lgblack = function(arg) { console.log( "%c" + arg, "background-color: black; color: white" )}
 
 var baseUrl = "";// "http://192.168.43.222/lalumpatan/";
 var apiUrl = "api/";// "http://192.168.43.222/lalumpatan/api/";
@@ -19,20 +21,37 @@ var apiUrl = "api/";// "http://192.168.43.222/lalumpatan/api/";
 				return;
 			}
 			var authenticate = curr.$$route.authenticate || false;
+			var onlyLogout = curr.$$route.onlyLogout || false;
 
-			/* Kalau yang dibuka BUKAN page login, dan user tidak login, masuk ke page login */
-			if (authenticate && !user.isLoginLocal()) {
+			if (authenticate) {
+				if (user.isLoginLocal()) {
+					user.cekLocal().then(function(res) {
+						if (res.status) {
+							lgw("res true");
+							cekPeriodicOnline();
+						} else {
+							lgw("res false");
+							$root.changePath("/login");
+						}
+					});
+				} else {
+					$root.changePath("/login");
+				}
 
-				user.cekLocal().then(function(res) {
-					if (res.status) {
-						user.cek().then(function(resc) {
-							if (!resc.status)
-								$root.changePath("/login");
-						});
-					} else {
-						$root.changePath("/login");
-					}
-				});
+			} else if (onlyLogout && user.isLoginLocal()) {
+				$root.changePath("/");
+			}
+
+			function cekPeriodicOnline() {
+				lgblue("cekPeriodicOnline");
+				if (!user.isLogin()) {
+					user.cek().then(function(resc) {
+						if (!resc.status)
+							$root.changePath("/login");
+					}, function() {
+						window.setTimeout(cekPeriodicOnline, 5000);
+					});
+				}
 			}
 		});
 
@@ -46,7 +65,7 @@ var apiUrl = "api/";// "http://192.168.43.222/lalumpatan/api/";
 		});
 
 		$root.$on("$viewContentLoaded", function() {
-			lgi("Upgrade All Registered");
+			lgblue("Upgrade All Registered");
 			componentHandler.upgradeAllRegistered();
 		});
 	}]);

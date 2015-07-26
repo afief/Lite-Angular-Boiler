@@ -44,9 +44,13 @@
 		</header>
 
 		<div class="mdl-layout__drawer" ng-show="headerShow">
-			<span class="mdl-layout-title">Title</span>
+			<span class="avatar" ng-show="user.isLogin()" ng-click="changePath('/profile')" > <img ng-src="{{user.profile.detail.avatar}}" alt=""> </span>
+			<span class="mdl-layout-title" ng-show="user.isLogin()" ng-click="changePath('/profile')">{{user.profile.detail.nama_depan}} {{user.profile.detail.nama_belakang}}</span>
+			
+			<span class="not-connected" ng-hide="user.isLogin()" ng-click="user.cek()"> tidak terkoneksi ke server. </span>
+
 			<nav class="mdl-navigation">
-				<a class="mdl-navigation__link" href="" ng-click="changePath('')">Index</a>
+				<a class="mdl-navigation__link" href="" ng-click="changePath('')">Home</a>
 				<a class="mdl-navigation__link" href="" ng-hide="user.isLoginLocal()" ng-click="changePath('login')">Login</a>
 				<a class="mdl-navigation__link" href="" ng-show="user.isLoginLocal()" ng-click="logout()">Logout</a>
 			</nav>

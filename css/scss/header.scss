@@ -11,3 +11,25 @@
 		}
 	}
 }
+.mdl-layout__drawer {
+	.avatar {
+		display: table;
+		margin: 20px auto 5px auto;
+		img {
+			border-radius: 50%;
+			box-shadow: 1px 1px 3px -1px $color_grey;
+		}
+	}
+	.mdl-layout-title {
+		font-size: medium;
+		text-align: center;
+		color: $color_grey;
+	}
+	.not-connected {
+		text-align: center;
+		display: block;
+		padding: 20px 0px;
+		background-color: $color_grey5;
+		color: $color_grey2;
+	}
+}

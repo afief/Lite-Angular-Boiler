@@ -6,7 +6,6 @@ userModule.factory("user", ["$http","$q", function($http, $q) {
 
 	var key = window.localStorage.getItem("key") || "";
 	var isLogin = false;
-	var isLoginLocal = false;
 
 	function changeKey(newKey) {
 		key = newKey;
@@ -35,7 +34,7 @@ userModule.factory("user", ["$http","$q", function($http, $q) {
 			return isLogin;
 		},
 		isLoginLocal: function() {
-			return isLoginLocal;
+			return (key != "");
 		},
 		login: function(username, password) {
 			var defer = $q.defer();
@@ -90,10 +89,8 @@ userModule.factory("user", ["$http","$q", function($http, $q) {
 			lgi("cek local", key);
 
 			if (key == "") {
-				isLoginLocal = false;
 				return $q.when({status: false});
 			} else {
-				isLoginLocal = true;
 				return $q.when({status: true});
 			}
 
@@ -114,9 +111,11 @@ userModule.factory("user", ["$http","$q", function($http, $q) {
 					isLogin = true;
 					ini.profile = data.data;
 					defer.resolve(data);
-				} else {
+				} else if (data.hasOwnProperty("status")) {
 					changeKey("");
 					defer.resolve(data);
+				} else {
+					defer.reject(data);
 				}
 			}).
 			catch(function(err) {

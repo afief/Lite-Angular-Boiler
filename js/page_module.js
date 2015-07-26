@@ -8,22 +8,25 @@ pageModule.config(['$routeProvider',
 			controller: 'IndexController',
 			headerShow: true,
 			authenticate: true
-			// resolve: {
-			// 	authenticated: ["user", '$q', function(user, $q) {
-			// 		return user.cek();
-			// 	}]
-			// }
 		}).
 		when('/login', {
 			templateUrl: 'html/login.html',
 			controller: 'LoginController',
 			headerShow: false,
-			authenticate: false
-			// resolve: {
-			// 	authenticated: ["user", '$q', function(user, $q) {
-			// 		return user.cek();
-			// 	}]
-			// }
+			authenticate: false,
+			onlyLogout: true
+		}).
+		when('/profile', {
+			templateUrl: 'html/profile.html',
+			controller: 'ProfileController',
+			headerShow: true,
+			authenticate: true
+		}).
+		when('/editprofile', {
+			templateUrl: 'html/editProfile.html',
+			controller: 'EditProfileCtrl',
+			headerShow: true,
+			authenticate: true
 		}).
 		otherwise({
 			redirectTo: '/'
@@ -136,6 +139,12 @@ pageModule.controller('LoginController', ['$scope', '$rootScope', "user", functi
 
 }]);
 pageModule.controller('IndexController', ['$scope', '$rootScope', function($scope, $root){
+	
+}]);
+pageModule.controller('ProfileController', ['$scope', '$rootScope', function($scope, $root){
+	
+}]);
+pageModule.controller('EditProfileCtrl', ['$scope', '$rootScope', function($scope, $root){
 	
 }]);
 
