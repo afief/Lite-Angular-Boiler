@@ -14,6 +14,7 @@
 	<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
 
 	<script src="js/page_module.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/user_module.js" type="text/javascript" charset="utf-8"></script>
 
 	<link rel="stylesheet" href="mdl/material.min.css">
 	<script src="mdl/material.min.js"></script>
@@ -29,6 +30,7 @@
 				<!-- Add spacer, to align navigation to the right -->
 				<div class="mdl-layout-spacer"></div>
 				<!-- Navigation. We hide it in small screens. -->
+
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
 					<label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
 						<i class="material-icons">search</i>
@@ -45,9 +47,8 @@
 			<span class="mdl-layout-title">Title</span>
 			<nav class="mdl-navigation">
 				<a class="mdl-navigation__link" href="" ng-click="changePath('')">Index</a>
-				<a class="mdl-navigation__link" href="" ng-click="changePath('login')">Login</a>
-				<a class="mdl-navigation__link" href="">Link</a>
-				<a class="mdl-navigation__link" href="">Link</a>
+				<a class="mdl-navigation__link" href="" ng-hide="user.isLoginLocal()" ng-click="changePath('login')">Login</a>
+				<a class="mdl-navigation__link" href="" ng-show="user.isLoginLocal()" ng-click="logout()">Logout</a>
 			</nav>
 		</div>
 
@@ -57,6 +58,8 @@
 			</div>
 		</main>
 	</div>
+
+	<div loading-dir></div>
 
 </body>
 </html>

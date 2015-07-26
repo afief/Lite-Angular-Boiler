@@ -28,25 +28,25 @@
 		<div class="mdl-tabs__panel" id="register-panel">
 			<form class="form-login form-register" ng-submit="registerSubmit()">
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-					<input class="mdl-textfield__input" type="text" id="r_username" />
+					<input class="mdl-textfield__input" type="text" id="r_username" ng-model="r_username" />
 					<label class="mdl-textfield__label" for="r_username">Username</label>
 				</div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-					<input class="mdl-textfield__input" type="email" id="r_password" />
-					<label class="mdl-textfield__label" for="r_password">Email</label>
+					<input class="mdl-textfield__input" type="email" id="r_email" ng-model="r_email" />
+					<label class="mdl-textfield__label" for="r_email">Email</label>
 				</div>
 
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-					<input class="mdl-textfield__input" type="password" id="r_password" />
+					<input class="mdl-textfield__input" type="password" id="r_password" ng-model="r_password" />
 					<label class="mdl-textfield__label" for="r_password">Password</label>
 				</div>
 				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo">
-					<input class="mdl-textfield__input" type="password" id="r_password" />
-					<label class="mdl-textfield__label" for="r_password">Ulangi Password</label>
+					<input class="mdl-textfield__input" type="password" id="r_password2" ng-model="r_password2" />
+					<label class="mdl-textfield__label" for="r_password2">Ulangi Password</label>
 				</div>
 
 				<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
-					<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" />
+					<input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" ng-model="r_setuju" />
 					<span class="mdl-checkbox__label">Setuju dengan syarat dan ketentuan berlaku</span>
 				</label>
 
