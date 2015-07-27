@@ -2,7 +2,7 @@ var userModule = angular.module("UserModule", [], ["$httpProvider", function($ht
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }]);
 
-userModule.factory("user", ["$http","$q", function($http, $q) {
+userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) {
 
 	var key = window.localStorage.getItem("key") || "";
 	var isLogin = false;
@@ -156,6 +156,31 @@ userModule.factory("user", ["$http","$q", function($http, $q) {
 				lgw("load local data", res);
 			}
 			return res;
+		},
+
+		changeAvatar: function(file) {
+			var defer  = $q.defer();
+
+			Upload.upload({
+				url: apiUrl + "changeavatar",
+				method: 'POST',
+				file: file,
+				sendFieldsAs: 'form',
+				fields: {
+					key: key
+				}
+			}).progress(function (evt) {
+				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+				lg('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+			}).success(function (data, status, headers, config) {
+				lgi('file ' + config.file.name + 'uploaded. Response: ' + data);
+				defer.resolve(true);
+			}).error(function (data, status, headers, config) {
+				lgw('error status: ' + status);
+				defer.reject("");
+			})
+
+			return defer.promise;
 		}
 	}
 
@@ -168,8 +193,8 @@ userModule.run(["user", "$rootScope", function(user, $root) {
 	// 		});
 	// 	}
 	// });
-	
-	$root.user = user;
+
+$root.user = user;
 }]);
 userModule.run(["$http", "user", function($http, user) {
 	$http.defaults.headers.common.key = user.getKey();

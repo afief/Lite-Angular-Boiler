@@ -1,4 +1,4 @@
-var pageModule = angular.module("PageModule", ["UserModule"]);
+var pageModule = angular.module("PageModule", ["UserModule", "ngFileUpload"]);
 
 pageModule.config(['$routeProvider',
 	function($routeProvider) {
@@ -144,8 +144,20 @@ pageModule.controller('IndexController', ['$scope', '$rootScope', function($scop
 pageModule.controller('ProfileController', ['$scope', '$rootScope', function($scope, $root){
 	
 }]);
-pageModule.controller('EditProfileCtrl', ['$scope', '$rootScope', function($scope, $root){
+
+pageModule.controller('EditProfileCtrl', ['$scope', '$rootScope', "user", function($scope, $root, user){
 	
+	$scope.fileChanged = function(file) {
+		if (file.files.length > 0) {
+			// ada file masuk
+			user.changeAvatar(file.files[0]).then(function() {
+
+			}, function() {
+				
+			});
+		}
+	}	
+
 }]);
 
 

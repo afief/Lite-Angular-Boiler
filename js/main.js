@@ -5,8 +5,8 @@ var lgw = console.warn.bind(console);
 var lgblue = function(arg) { console.log( "%c" + arg, "background-color: blue; color: white" )}
 var lgblack = function(arg) { console.log( "%c" + arg, "background-color: black; color: white" )}
 
-var baseUrl = "";// "http://192.168.43.222/lalumpatan/";
-var apiUrl = "api/";// "http://192.168.43.222/lalumpatan/api/";
+var baseUrl = "http://192.168.88.14/mdl/angular/";
+var apiUrl = "http://192.168.88.14/mdl/angular/api/";
 
 (function() {
 
@@ -27,10 +27,8 @@ var apiUrl = "api/";// "http://192.168.43.222/lalumpatan/api/";
 				if (user.isLoginLocal()) {
 					user.cekLocal().then(function(res) {
 						if (res.status) {
-							lgw("res true");
 							cekPeriodicOnline();
 						} else {
-							lgw("res false");
 							$root.changePath("/login");
 						}
 					});

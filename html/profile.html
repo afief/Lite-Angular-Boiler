@@ -1,6 +1,6 @@
 <div class="page">
 	<div class="wrapper profile">
-		<span class="avatar" ng-show="user.isLogin()"> <img ng-src="{{user.profile.detail.avatar}}" alt=""> </span>
+		<div class="avatar" ng-show="user.isLogin()" ng-style="{'background-image' : 'url(' + user.profile.detail.avatar + ')'}" ng-click="changePath('/profile')" >&nbsp;</div>
 		<span class="mdl-layout-title" ng-show="user.isLogin()">{{user.profile.detail.nama_depan}} {{user.profile.detail.nama_belakang}}</span>
 		<span class="mdl-layout-title" ng-show="user.isLogin()">
 			<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--primary" ng-click="changePath('/editprofile')">Edit Profile</button>

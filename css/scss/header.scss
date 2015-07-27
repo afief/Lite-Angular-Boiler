@@ -13,12 +13,14 @@
 }
 .mdl-layout__drawer {
 	.avatar {
+		width: 100px;
+		height: 100px;
 		display: table;
 		margin: 20px auto 5px auto;
-		img {
-			border-radius: 50%;
-			box-shadow: 1px 1px 3px -1px $color_grey;
-		}
+		border-radius: 50%;
+		box-shadow: 1px 1px 3px -1px $color_grey;
+		background-size: cover;
+		background-position: center center;
 	}
 	.mdl-layout-title {
 		font-size: medium;

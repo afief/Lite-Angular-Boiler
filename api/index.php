@@ -12,7 +12,7 @@ $db = new medoo([
 	'username' => DATABASE_USERNAME,
 	'password' => DATABASE_PASSWORD,
 	'charset' => 'utf8'
-]);
+	]);
 
 //routing
 $app = new \Slim\Slim();
@@ -125,6 +125,7 @@ $app->post("/user", function() {
 		if ($user) {
 			$user["status"] = intval($user["status"]);
 			$user["detail"] = getUserDetail($user["id"]);
+			$user["detail"]["avatar"] = BASE_URL . AVATAR_DIR . $user["detail"]["avatar"];
 
 			unset($user["password"]);
 
@@ -167,6 +168,30 @@ $app->get("/email/:email", function($email) {
 
 		$result->status = true;
 		$result->data = $user;
+	}
+
+	echo json_encode($result);
+});
+
+$app->post("/changeavatar", function() {
+	global $app;
+
+	$result = new stdClass();
+	$result->status = false;
+
+	$user = getUserByKey($_POST["key"]);
+	if ($user) {
+		$filename = $user["username"] . "_" . uniqid() . "." . end(explode('.', $_FILES['file']['name']));
+
+		$destination = AVATAR_DIR . $filename;
+		if (move_uploaded_file( $_FILES['file']['tmp_name'] , $destination )) {
+			updateAvatar($user["id"], $filename);
+
+			cropImage($destination);
+
+			$result->key = $_POST['key'];
+			$result->status = true;
+		}
 	}
 
 	echo json_encode($result);
@@ -244,6 +269,11 @@ function setUserDetail($id, $nama_depan, $nama_belakang, $deskripsi, $avatar, $g
 		"gender"		=> $gender
 		]);
 }
+function updateAvatar($id, $avatar) {
+	global $db;
+
+	$db->update("me_user_details", [ "avatar" => $avatar],["id_user" => $id]);
+}
 function getUserByKey($key) {
 	global $db;
 	$user = false;
@@ -318,7 +348,39 @@ function makeUniqueId($length = 5) {
 
 	return $res;
 }
+function cropImage($destination) {
+	/* Crop */
+	$im;
+	if (exif_imagetype($destination) == IMAGETYPE_JPEG)
+		$im = imagecreatefromjpeg($destination);
+	else if (exif_imagetype($destination) == IMAGETYPE_PNG)
+		$im = imagecreatefrompng($destination);
+	else
+		return false;
 
+	$ini_x_size = getimagesize($destination )[0];
+	$ini_y_size = getimagesize($destination )[1];
+
+	$crop_measure = min($ini_x_size, $ini_y_size);
+
+	$px = 0; $py = 0;
+	if ($ini_x_size > $ini_y_size) {
+		$px = $ini_x_size / 2 - $crop_measure / 2;
+	} else {
+		$py = $ini_y_size / 2 - $crop_measure / 2;
+	}
+
+	$to_crop_array = array('x' => $px , 'y' => $py, 'width' => $crop_measure, 'height'=> $crop_measure);
+	$thumb_im = imagecrop($im, $to_crop_array);
+
+	$ext = end(explode('.', $_FILES['file']['name']));
+	$cropFile = basename($destination, "." . $ext);
+	$cropFile = $cropFile . "_crop." . $ext;
+	$cropFile = AVATAR_DIR . $cropFile;
+
+	imagejpeg($thumb_im, $cropFile, 80);
+	return $cropFile;
+}
 
 $app->run();
 
