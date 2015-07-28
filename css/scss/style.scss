@@ -60,6 +60,29 @@
 		}
 	}
 }
+.mdl-textfield--file {
+	margin: 0 auto;
+    display: table;
+	.mdl-button--file {
+		input {
+			cursor: pointer;
+			height: 100%;
+			right: 0;
+			opacity: 0;
+			position: absolute;
+			top: 0;
+			width: 300px;
+			z-index: 4;
+		}
+	}
+	.mdl-textfield__input {
+		box-sizing: border-box;
+		width: calc(100% - 32px);
+	}
+	.mdl-button--file {
+		right: 0;
+	}
+}
 
 .loading {
 	position: fixed;

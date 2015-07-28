@@ -2,7 +2,7 @@ var userModule = angular.module("UserModule", [], ["$httpProvider", function($ht
 	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 }]);
 
-userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) {
+userModule.factory("user", ["$http","$q", "$rootScope", "Upload", function($http, $q, $root, Upload) {
 
 	var key = window.localStorage.getItem("key") || "";
 	var isLogin = false;
@@ -85,6 +85,24 @@ userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) 
 
 			return defer.promise;
 		},
+		updateUser: function(credential) {
+			var defer = $q.defer();
+			var ini = this;
+
+			$http.post(apiUrl + "updateUser", serialize(credential)).
+			success(function(data) {
+				if (data.status) {
+					defer.resolve(true);
+				} else {
+					defer.reject(data.message);
+				}
+			}).
+			catch(function(err) {
+				defer.reject(err);
+			});
+
+			return defer.promise;
+		},
 		cekLocal: function() {
 			lgi("cek local", key);
 
@@ -106,11 +124,13 @@ userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) 
 
 			$http.post(apiUrl + "user", serialize({key: key})).
 			success(function(data, status) {
-				lgi("cek login", data.status);
+				lgi("cek login", data.status, data.data);
 				if (data.status) {
 					isLogin = true;
 					ini.profile = data.data;
 					defer.resolve(data);
+					$root.$broadcast("userProfileUpdated", ini.profile);
+					lg("bradcast");
 				} else if (data.hasOwnProperty("status")) {
 					changeKey("");
 					defer.resolve(data);
@@ -171,7 +191,7 @@ userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) 
 				}
 			}).progress(function (evt) {
 				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-				lg('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+				defer.notify(progressPercentage);
 			}).success(function (data, status, headers, config) {
 				if (data.status)
 					defer.resolve(data.url);

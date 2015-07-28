@@ -1,7 +1,44 @@
 <div class="page">
 	<div class="wrapper profile editprofile">
-		<div class="avatar" ng-show="user.isLogin()" ng-style="{'background-image' : 'url(' + user.profile.detail.avatar + ')'}" ng-click="changePath('/profile')" >&nbsp;</div>
+		<div class="avatar" ng-show="user.isLogin()" ng-style="{'background-image' : 'url(' + user.profile.detail.avatar + ')'}" >&nbsp;</div>
 
-		<input type="file" name="file" onchange="angular.element(this).scope().fileChanged(this)" />
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--file" ng-hide="isAvatarLoading">
+			<input class="mdl-textfield__input" placeholder="Change Avatar	" type="text" id="uploadFile" readonly/>
+			<div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+				<i class="material-icons">attach_file</i>
+				<input type="file" id="uploadBtn" onchange="angular.element(this).scope().fileChanged(this)" accept="image/x-png, image/jpeg">
+			</div>
+		</div>
+		<div id="progressAvatar" class="mdl-progress mdl-js-progress progress-demo mdl-textfield--file" style="width: 300px; margin-top: 20px;" ng-show="isAvatarLoading"></div>
+
+		<form class="form-login" ng-submit="editProfileSubmit()" ng-show="isDetailReady">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo is-focused is-dirty">
+				<input class="mdl-textfield__input" type="text" id="e_nama_depan" ng-model="detail.nama_depan" />
+				<label class="mdl-textfield__label" for="e_nama_depan">Nama Depan</label>
+			</div>
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo is-focused is-dirty">
+				<input class="mdl-textfield__input" type="text" id="e_nama_belakang" ng-model="detail.nama_belakang" />
+				<label class="mdl-textfield__label" for="e_nama_belakang">Nama Belakang</label>
+			</div>
+
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo is-focused is-dirty">
+				<label class="mdl-textfield__label">Deskripsi</label>
+				<textarea class="mdl-textfield__input" type="text" rows= "3" ng-model="detail.deskripsi"></textarea>
+			</div>
+
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label textfield-demo is-focused is-dirty">
+				<select class="mdl-textfield__input" ng-model="detail.gender" id="e_gender">
+					<option value="male">Male</option>
+					<option value="female">Female</option>
+				</select>
+				<label class="mdl-textfield__label" for="e_gender">Gender</label>
+			</div>
+
+
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+				Save
+			</button>
+		</form>
+		
 	</div>
 </div>

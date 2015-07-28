@@ -53,7 +53,7 @@ $app->post("/register", function() {
 					$regStatus = registerNewUser($user["username"], $user["password"], $user["email"], 10);
 					if ($regStatus) {
 						$result->status = true;
-						setUserDetail($regStatus, $user["username"], "", "", "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $user["email"] ) ) ) . "?s=80&d=mm", "pria");
+						setUserDetail($regStatus, $user["username"], "", "", "default.png", "male");
 					} else {
 						$result->message = "register failed";
 					}
@@ -69,6 +69,30 @@ $app->post("/register", function() {
 	} else {
 		$result->message = "parameter invalid";
 	}
+	echo json_encode($result);
+});
+
+$app->post("/updateUser", function() {
+	global $app;
+
+	$result = new stdClass();
+	$result->status = false;
+	$post = getPosts();
+
+	if (isset($post["nama_depan"]) && isset($post["nama_belakang"]) && isset($post["deskripsi"]) && isset($post["gender"])) {
+
+		$user = getUserBykey(getHeaders("key"));
+		if ($user) {
+			updateUserDetail($user["id"], $post["nama_depan"], $post["nama_belakang"], $post["deskripsi"], $post["gender"]);
+			$result->status = true;
+		} else {
+			$result->message = "invalid_key";
+		}
+
+	} else {
+		$result->message = "parameter invalid";
+	}
+
 	echo json_encode($result);
 });
 
@@ -173,6 +197,8 @@ $app->get("/email/:email", function($email) {
 	echo json_encode($result);
 });
 
+
+
 $app->post("/changeavatar", function() {
 	global $app;
 
@@ -272,6 +298,16 @@ function setUserDetail($id, $nama_depan, $nama_belakang, $deskripsi, $avatar, $g
 		"avatar"		=> $avatar,
 		"gender"		=> $gender
 		]);
+}
+function updateUserDetail($id, $nama_depan, $nama_belakang, $deskripsi, $gender) {
+	global $db;
+
+	return $db->update("me_user_details", [
+		"nama_depan"	=> $nama_depan,
+		"nama_belakang"	=> $nama_belakang, 
+		"deskripsi"		=> $deskripsi, 
+		"gender"		=> $gender
+		], ["id_user"		=> $id]);
 }
 function updateAvatar($id, $avatar) {
 	global $db;

@@ -22,7 +22,7 @@ pageModule.config(['$routeProvider',
 			headerShow: true,
 			authenticate: true
 		}).
-		when('/editprofile', {
+		when('/editprofile/:back', {
 			templateUrl: 'html/editProfile.html',
 			controller: 'EditProfileCtrl',
 			headerShow: true,
@@ -146,17 +146,68 @@ pageModule.controller('ProfileController', ['$scope', '$rootScope', function($sc
 }]);
 
 pageModule.controller('EditProfileCtrl', ['$scope', '$rootScope', "user", function($scope, $root, user){
+
+	lg("on");
+
+	$scope.isAvatarLoading = false;
+	$scope.detail = user.profile.detail;
+	$scope.isDetailReady = false;
+
+	if ($scope.detail) {
+		$scope.isDetailReady = true;
+	} else {
+		$root.$on("userProfileUpdated", function(event, data) {
+			$scope.detail = data.detail;
+			$scope.isDetailReady = true;
+			lgi("update", $scope.detail.gender);
+			if (!$scope.$$phase)
+				$scope.$digest();
+		});
+	}
 	
 	$scope.fileChanged = function(file) {
+		lgi("File Changed", file.files);
+
 		if (file.files.length > 0) {
 			// ada file masuk
-			user.changeAvatar(file.files[0]).then(function(url) {
-				user.profile.detail.avatar = url;
-			}, function() {
-				
-			});
+			var cf = file.files[0];
+
+			if (["image/jpeg", "image/png"].indexOf(cf.type) < 0) {
+				alert("Tipe file tidak didukung");
+			} else if (cf.size >= 3000000) {
+				alert("Ukuran tidak melebihi 3 Mb");
+				file.value = "";
+			} else {
+				document.querySelector("#uploadFile").value = cf.name;
+
+				$scope.isAvatarLoading = true;
+
+				user.changeAvatar(file.files[0]).then(function(url) {
+					/* success */
+					user.profile.detail.avatar = url;
+					$scope.isAvatarLoading = false;
+				}, function() {
+					/* error */
+					$scope.isAvatarLoading = false;
+				}, function(percent) {
+					/* progress */
+					var progEl = document.querySelector("#progressAvatar");
+					progEl.MaterialProgress.setProgress(percent);
+				});
+			}
 		}
-	}	
+	}
+
+	$scope.editProfileSubmit = function() {
+		$root.loadingSrv.show();
+		user.updateUser($scope.detail).then(function(res) {
+			$root.changePath("/profile");
+			$root.loadingSrv.hide();
+		}, function() {
+			$root.loadingSrv.hide();
+			alert("Gagal Update Profil");
+		});;
+	}
 
 }]);
 

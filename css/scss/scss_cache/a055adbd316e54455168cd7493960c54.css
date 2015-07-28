@@ -1,4 +1,4 @@
-/* compiled by scssphp v0.0.9 on Mon, 27 Jul 2015 13:35:20 +0200 (0.0691s) */
+/* compiled by scssphp v0.0.9 on Tue, 28 Jul 2015 09:29:40 +0200 (0.0526s) */
 
 @font-face {
   font-family: 'Material Icons';
@@ -18,6 +18,9 @@
   word-wrap: normal;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased; }
+
+textarea {
+  resize: none; }
 
 .layout-transparent .mdl-layout__drawer-button {
   color: #333; }
@@ -87,6 +90,24 @@
       min-height: 176px; }
     .mdl-layout .mdl-card__menu {
       color: #fff; }
+
+.mdl-textfield--file {
+  margin: 0 auto;
+  display: table; }
+  .mdl-textfield--file .mdl-button--file input {
+    cursor: pointer;
+    height: 100%;
+    right: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 300px;
+    z-index: 4; }
+  .mdl-textfield--file .mdl-textfield__input {
+    box-sizing: border-box;
+    width: calc(100% - 32px); }
+  .mdl-textfield--file .mdl-button--file {
+    right: 0; }
 
 .loading {
   position: fixed;
