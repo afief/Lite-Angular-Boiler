@@ -173,11 +173,12 @@ userModule.factory("user", ["$http","$q", "Upload", function($http, $q, Upload) 
 				var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
 				lg('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 			}).success(function (data, status, headers, config) {
-				lgi('file ' + config.file.name + 'uploaded. Response: ' + data);
-				defer.resolve(true);
+				if (data.status)
+					defer.resolve(data.url);
+				else
+					defer.reject(false);
 			}).error(function (data, status, headers, config) {
-				lgw('error status: ' + status);
-				defer.reject("");
+				defer.reject(false);
 			})
 
 			return defer.promise;

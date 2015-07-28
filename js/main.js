@@ -5,8 +5,8 @@ var lgw = console.warn.bind(console);
 var lgblue = function(arg) { console.log( "%c" + arg, "background-color: blue; color: white" )}
 var lgblack = function(arg) { console.log( "%c" + arg, "background-color: black; color: white" )}
 
-var baseUrl = "http://192.168.88.14/mdl/angular/";
-var apiUrl = "http://192.168.88.14/mdl/angular/api/";
+var baseUrl = "";//http://192.168.88.14/mdl/angular/";
+var apiUrl = "api/"; //http://192.168.88.14/mdl/angular/api/";
 
 (function() {
 

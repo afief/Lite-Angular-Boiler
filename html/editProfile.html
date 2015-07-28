@@ -1,5 +1,7 @@
 <div class="page">
-	<div class="wrapper editprofile">
+	<div class="wrapper profile editprofile">
+		<div class="avatar" ng-show="user.isLogin()" ng-style="{'background-image' : 'url(' + user.profile.detail.avatar + ')'}" ng-click="changePath('/profile')" >&nbsp;</div>
+
 		<input type="file" name="file" onchange="angular.element(this).scope().fileChanged(this)" />
 	</div>
 </div>

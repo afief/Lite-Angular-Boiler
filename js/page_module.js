@@ -150,8 +150,8 @@ pageModule.controller('EditProfileCtrl', ['$scope', '$rootScope', "user", functi
 	$scope.fileChanged = function(file) {
 		if (file.files.length > 0) {
 			// ada file masuk
-			user.changeAvatar(file.files[0]).then(function() {
-
+			user.changeAvatar(file.files[0]).then(function(url) {
+				user.profile.detail.avatar = url;
 			}, function() {
 				
 			});

@@ -180,16 +180,20 @@ $app->post("/changeavatar", function() {
 	$result->status = false;
 
 	$user = getUserByKey($_POST["key"]);
-	if ($user) {
-		$filename = $user["username"] . "_" . uniqid() . "." . end(explode('.', $_FILES['file']['name']));
+	if ($user) {	
+
+		$ext = explode('.', $_FILES['file']['name']);
+		$ext = $ext[count($ext)-1];
+		$filename = $user["username"] . "_" . uniqid() . "." . $ext;
 
 		$destination = AVATAR_DIR . $filename;
 		if (move_uploaded_file( $_FILES['file']['tmp_name'] , $destination )) {
 			updateAvatar($user["id"], $filename);
 
-			cropImage($destination);
+			//cropImage($destination);
 
 			$result->key = $_POST['key'];
+			$result->url = BASE_URL . $destination;
 			$result->status = true;
 		}
 	}
@@ -373,7 +377,9 @@ function cropImage($destination) {
 	$to_crop_array = array('x' => $px , 'y' => $py, 'width' => $crop_measure, 'height'=> $crop_measure);
 	$thumb_im = imagecrop($im, $to_crop_array);
 
-	$ext = end(explode('.', $_FILES['file']['name']));
+	$ext = explode('.', $_FILES['file']['name']);
+	$ext = $ext[count($ext)-1];
+
 	$cropFile = basename($destination, "." . $ext);
 	$cropFile = $cropFile . "_crop." . $ext;
 	$cropFile = AVATAR_DIR . $cropFile;
